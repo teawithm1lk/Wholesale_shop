@@ -1,5 +1,6 @@
 package main.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import main.entity.Goods;
 import main.entity.Sales;
 import main.entity.Warehouse1;
@@ -9,19 +10,35 @@ import main.repository.SalesRepository;
 import main.repository.Warehouse1Repository;
 import main.repository.Warehouse2Repository;
 import main.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class GoodsServiceImpl implements GoodsService {
+    @Autowired
     GoodsRepository goodsRepository;
+
+    @Autowired
     SalesRepository salesRepository;
+
+    @Autowired
     Warehouse1Repository warehouse1Repository;
+
+    @Autowired
     Warehouse2Repository warehouse2Repository;
 
     @Override
-    public Optional<Goods> findGoodByID(int id) {
-        return goodsRepository.findById(id);
+    public Goods findGoodByID(int id) {
+        Optional<Goods> optGood = goodsRepository.findById(id);
+        if (optGood.isPresent()) {
+            return optGood.get();
+        }
+        else {
+            throw new EntityNotFoundException("Good with that id was not found!");
+        }
     }
 
     @Override
@@ -57,18 +74,30 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Optional<String> getWhenGoodSoldLastTimeByName(String name) {
-        return goodsRepository.getDateSoldLastTimeByName(name);
+    public String getWhenGoodSoldLastTimeByName(String name) {
+        Optional<String> optTime = goodsRepository.getDateSoldLastTimeByName(name);
+        if (optTime.isPresent()) {
+            return optTime.get();
+        }
+        else {
+            throw new EntityNotFoundException("Sale of that good was not found!");
+        }
+    }
+
+    @Override
+    public Goods findGoodsByName(String name) {
+        Optional<Goods> optGoods = goodsRepository.findByName(name);
+        if (optGoods.isPresent()) {
+            return optGoods.get();
+        }
+        else {
+            throw new EntityNotFoundException("Good with that name was not found!");
+        }
     }
 
     @Override
     public List<Goods> listGoods() {
         return (List<Goods>)goodsRepository.findAll();
-    }
-
-    @Override
-    public Optional<Goods> findGoodsByName(String name) {
-        return goodsRepository.findByName(name);
     }
 
     @Override
@@ -84,5 +113,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findGoodsByPriorityLessThan(Double priority) {
         return goodsRepository.findByPriorityLessThan(priority);
+    }
+
+    @Override
+    public Goods addGood(Goods good) {
+        return goodsRepository.save(good);
+    }
+
+    @Override
+    public List<Goods> addListGoods(List<Goods> goods) {
+        return (List<Goods>) goodsRepository.saveAll(goods);
     }
 }

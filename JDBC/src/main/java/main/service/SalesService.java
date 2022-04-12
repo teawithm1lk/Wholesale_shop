@@ -3,10 +3,9 @@ package main.service;
 import main.entity.Sales;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SalesService {
-    Optional<Sales> findSaleByID(int id);
+    Sales findSaleByID(int id);
     Integer countSoldGoodsByGoodID(int goodID);
     List<String> namesOfGoodsWhichSoldGreaterThan(int count);
 
@@ -16,4 +15,7 @@ public interface SalesService {
     List<Sales> findSalesByCountMoreThan(int count);
     List<Sales> findSalesByCountLessThan(int count);
     List<Sales> findSalesByCreateDate(String createDate);
+
+    Sales addSale(Sales sale);
+    List<Sales> addListSales(List<Sales> sales);
 }
