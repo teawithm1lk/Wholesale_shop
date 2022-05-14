@@ -102,22 +102,22 @@ public class ControllerByWarehouses {
         return new ResponseEntity<>(warehouse2Service.findNotesByCountMoreThan(count), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add_note_to_wh/wh_id=1", consumes = "wh1/json", produces = "wh1/json")
+    @PostMapping(value = "/add_note_to_wh/wh_id=1", consumes = "application/json", produces = "application/json")
     public Warehouse1 addNoteToWarehouse1(@RequestBody Warehouse1 newNote) {
         return warehouse1Service.addNote(newNote);
     }
 
-    @PostMapping(value = "/add_note_to_wh/wh_id=2", consumes = "wh2/json", produces = "wh2/json")
+    @PostMapping(value = "/add_note_to_wh/wh_id=2", consumes = "application/json", produces = "application/json")
     public Warehouse2 addNoteToWarehouse2(@RequestBody Warehouse2 newNote) {
         return warehouse2Service.addNote(newNote);
     }
 
-    @PostMapping(value = "/add_list_notes_to_wh/wh_id=1", consumes = "lwh1/json", produces = "lwh1/json")
+    @PostMapping(value = "/add_list_notes_to_wh/wh_id=1", consumes = "application/json", produces = "application/json")
     public List<Warehouse1> addListNotesToWarehouse1(@RequestBody List<Warehouse1> newList) {
         return warehouse1Service.addListNotes(newList);
     }
 
-    @PostMapping(value = "/add_list_notes_to_wh/wh_id=2", consumes = "lwh2/json", produces = "lwh2/json")
+    @PostMapping(value = "/add_list_notes_to_wh/wh_id=2", consumes = "application/json", produces = "application/json")
     public List<Warehouse2> addListNotesToWarehouse2(@RequestBody List<Warehouse2> newList) {
         return warehouse2Service.addListNotes(newList);
     }

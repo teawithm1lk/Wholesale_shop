@@ -67,12 +67,12 @@ public class ControllerBySales {
         return new ResponseEntity<>(salesService.findSalesByCreateDate(createDate), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add_sale", consumes = "sale/json", produces = "sale/json")
+    @PostMapping(value = "/add_sale", consumes = "application/json", produces = "application/json")
     public Sales addSale(@RequestBody Sales newGood) {
         return salesService.addSale(newGood);
     }
 
-    @PostMapping(value = "/add_list_sales", consumes = "sales/json", produces = "sales/json")
+    @PostMapping(value = "/add_list_sales", consumes = "application/json", produces = "application/json")
     public List<Sales> addListSales(@RequestBody List<Sales> newList) {
         return salesService.addListSales(newList);
     }

@@ -82,12 +82,12 @@ public class ControllerByGoods {
         return new ResponseEntity<>(goodsService.findGoodsByPriorityMoreThan(priority), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add_good", consumes = "good/json", produces = "good/json")
+    @PostMapping(value = "/add_good", consumes = "application/json", produces = "application/json")
     public Goods addGood(@RequestBody Goods newGood) {
         return goodsService.addGood(newGood);
     }
 
-    @PostMapping(value = "/add_list_goods", consumes = "good/json", produces = "good/json")
+    @PostMapping(value = "/add_list_goods", consumes = "application/json", produces = "application/json")
     public List<Goods> addListGoods(@RequestBody List<Goods> newList) {
         return goodsService.addListGoods(newList);
     }
