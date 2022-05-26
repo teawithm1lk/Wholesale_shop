@@ -1,4 +1,4 @@
-package main.controller;
+package main.controller.api;
 
 import jakarta.persistence.EntityNotFoundException;
 import main.entity.Goods;

@@ -19,7 +19,7 @@ public class TestDataInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new User("user", passwordEncoder.encode("password"), Collections.singletonList("ROLE_USER")));
-        userRepository.save(new User("admin", passwordEncoder.encode("adminPassword"), Collections.singletonList("ROLE_ADMIN")));
+//        userRepository.save(new User("user", passwordEncoder.encode("password"), Collections.singletonList("ROLE_USER")));
+//        userRepository.save(new User("admin", passwordEncoder.encode("adminPassword"), Collections.singletonList("ROLE_ADMIN")));
     }
 }

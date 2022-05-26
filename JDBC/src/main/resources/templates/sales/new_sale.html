@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Register sale</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<header th:insert="common/header :: header"></header>
+
+<div class="container text-center">
+    <div>
+        <h1>New sale</h1>
+    </div>
+    <form th:action="@{/sales/add}" method="post"
+          style="max-width: 600px; margin: 0 auto;"
+          th:object="${sale}">
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-4">Good ID</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" th:field="${goodId.goodId}" required/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-4">Good Count</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" th:field="*{goodCount}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-4">Create Date</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" th:field="*{createDate}"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Add sale</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+</body>
+</html>

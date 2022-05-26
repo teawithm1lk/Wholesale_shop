@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Note in warehouse</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<header th:insert="common/header :: header"></header>
+
+<div class="container text-center">
+    <div>
+        <h1>Note in warehouse</h1>
+    </div>
+    <div>
+        <table style="margin-left:auto;margin-right:auto;" class="table-striped text-center table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Good name</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="note: ${whNote}">
+                <td th:text="${note.id}">ID</td>
+                <td th:text="${note.goods.getName()}">Good name</td>
+                <td th:text="${note.count}">Count</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:insert="common/footer :: footer"></div>
+
+</body>
+</html>

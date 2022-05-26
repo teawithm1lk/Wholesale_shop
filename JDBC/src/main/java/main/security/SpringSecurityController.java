@@ -26,14 +26,20 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable()
+        http.httpBasic()
+                .and()
                 .csrf().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin().loginPage("/login").permitAll()
+                .and()
+                .logout().logoutUrl("/logout")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/wc/auth/in").permitAll()
+                .antMatchers(HttpMethod.GET, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/login/**").permitAll()
+                .antMatchers(HttpMethod.POST).hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,
+                        "/", "/goods", "/sales",
+                        "/warehouse/wh_id=1/notes", "/warehouse/wh_id=2/notes").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/wc/warehouse/**", "/wc/sales/**", "/wc/goods/**").permitAll()
                 .antMatchers(HttpMethod.POST,

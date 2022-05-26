@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Info about good</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container text-center">
+    <div>
+        <h1 th:text="Info about ${good.getName()}">Info about good</h1>
+    </div>
+    <div>
+        <table style="margin-left:auto;margin-right:auto;" class="table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Priority</th>
+                <th>Last name</th>
+                <th>Count in warehouse 1</th>
+                <th>Count in warehouse 2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="good: ${goodsList}">
+                <td th:text="${good.id}">ID</td>
+                <td th:text="${good.name}">Name</td>
+                <td th:text="${good.priority}">Priority</td>
+                <td><a th:href="@{/warehouse/wh_id=1/{id}(id=${good.id})}"
+                       th:text="${good.warehouse1.getCount()}">Count in warehouse 1</a>
+                <td><a th:href="@{/warehouse/wh_id=2/{id}(id=${good.id})}"
+                       th:text="${good.warehouse2.getCount()}">Count in warehouse 2</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:insert="blocks/footer :: footer"></div>
+
+</body>
+</html>

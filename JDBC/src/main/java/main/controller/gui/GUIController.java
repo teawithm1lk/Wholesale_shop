@@ -1,0 +1,217 @@
+package main.controller.gui;
+
+import main.entity.*;
+import main.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+public class GUIController {
+    @Autowired
+    private GoodsRepository goodsRepository;
+
+    @Autowired
+    private SalesRepository salesRepository;
+
+    @Autowired
+    private Warehouse1Repository warehouse1Repository;
+
+    @Autowired
+    private Warehouse2Repository warehouse2Repository;
+
+    @GetMapping
+    public String viewHomePage() {
+        return "/home";
+    }
+
+    @GetMapping("/login")
+    public String showSignInForm(final Model model) {
+        model.addAttribute("user", new User());
+        return "/login/sign_in";
+    }
+
+    @GetMapping("/goods")
+    public String listGoods(final Model model) {
+        final List<Goods> goods = ((List<Goods>) goodsRepository.findAll())
+                .stream()
+                .filter(good -> {
+                    try {
+                        return isNotNull(good);
+                    } catch (IllegalAccessException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                }).toList();
+        model.addAttribute("goodsList", goods);
+        return "/goods/goods";
+    }
+
+    @GetMapping("/sales")
+    public String listSales(final Model model) {
+        final List<Sales> sales = ((List<Sales>) salesRepository.findAll())
+                .stream()
+                .filter(sale -> {
+                    try {
+                        return isNotNull(sale);
+                    } catch (IllegalAccessException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                }).toList();
+        model.addAttribute("salesList", sales);
+        return "/sales/sales";
+    }
+
+    @GetMapping("/warehouse/wh_id=1/notes")
+    public String listWarehouse1Notes(final Model model) {
+        final List<Warehouse1> notes = ((List<Warehouse1>) warehouse1Repository.findAll())
+                .stream()
+                .filter(note -> {
+                    try {
+                        return isNotNull(note);
+                    } catch (IllegalAccessException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                }).toList();
+        model.addAttribute("warehouse1Notes", notes);
+        return "/warehouses/all_notes_1";
+    }
+
+    @GetMapping("/warehouse/wh_id=2/notes")
+    public String listWarehouse2Notes(final Model model) {
+        final List<Warehouse2> notes = ((List<Warehouse2>) warehouse2Repository.findAll())
+                .stream()
+                .filter(note -> {
+                    try {
+                        return isNotNull(note);
+                    } catch (IllegalAccessException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                }).toList();
+        model.addAttribute("warehouse2Notes", notes);
+        return "/warehouses/all_notes_2";
+    }
+
+    @GetMapping("/sales/{id}")
+    public String showSale(@PathVariable("id") Integer id, final Model model) {
+        final Optional<Sales> sale = salesRepository.findById(id);
+        if (sale.isEmpty()) {
+            return "/sales/not_found";
+        }
+        final Sales clearSale = sale.get();
+        model.addAttribute("sale", clearSale);
+        model.addAttribute("goods", clearSale.getGoods());
+        return "/sales/sale";
+    }
+
+    @GetMapping("/warehouse/wh_id=1/{id}")
+    public String showNoteInWH1(@PathVariable("id") Integer id, final Model model) {
+        final Optional<Warehouse1> note = warehouse1Repository.findById(id);
+        if (note.isEmpty()) {
+            return "/warehouses/not_found";
+        }
+        final Warehouse1 clearNote = note.get();
+        model.addAttribute("whNote", clearNote);
+        model.addAttribute("goods", clearNote.getGoods());
+        return "/warehouses/note";
+    }
+
+    @GetMapping("/warehouse/wh_id=2/{id}")
+    public String showNoteInWH2(@PathVariable("id") Integer id, final Model model) {
+        final Optional<Warehouse2> note = warehouse2Repository.findById(id);
+        if (note.isEmpty()) {
+            return "/warehouses/not_found";
+        }
+        final Warehouse2 clearNote = note.get();
+        model.addAttribute("whNote", clearNote);
+        model.addAttribute("goods", clearNote.getGoods());
+        return "/warehouses/note";
+    }
+
+    @GetMapping("/sales/add")
+    public String showSaleRegistration(final Model model) {
+        model.addAttribute("sale", new Sales());
+        model.addAttribute("goodId", new GoodId());
+        return "/sales/new_sale";
+    }
+
+    @PostMapping("/sales/add")
+    public String processSaleRegistration(final Sales sale, final GoodId goodId) {
+        final Optional<Goods> foundGood = goodsRepository.findById(goodId.getGoodId());
+        if (foundGood.isEmpty()) {
+            return "/goods/not_found";
+        }
+        sale.setGoods(foundGood.get());
+        salesRepository.save(sale);
+        return "/sales/sales";
+    }
+
+    @GetMapping("/goods/add")
+    public String showGoodRegistration(final Model model) {
+        model.addAttribute("good", new Goods());
+        return "/goods/new_good";
+    }
+
+    @PostMapping("/goods/add")
+    public String processGoodRegistration(final Goods good) {
+        final Optional<Goods> foundGood = goodsRepository.findByName(good.getName());
+        if (foundGood.isPresent()) {
+            return "/goods/already_exists";
+        }
+        goodsRepository.save(good);
+        return "/goods/goods";
+    }
+
+    @GetMapping("/warehouse/wh_id=1/add")
+    public String showWarehouse1Registration(final Model model) {
+        model.addAttribute("noteInWH1", new Warehouse1());
+        model.addAttribute("goodId", new GoodId());
+        return "/warehouses/new_note_1";
+    }
+
+    @PostMapping("/warehouse/wh_id=1/add")
+    public String processWarehouse1Registration(final Warehouse1 note, final GoodId goodId) {
+        final Optional<Goods> foundGood = goodsRepository.findById(goodId.getGoodId());
+        if (foundGood.isEmpty()) {
+            return "/goods/not_found";
+        }
+        note.setGoods(foundGood.get());
+        warehouse1Repository.save(note);
+        return "/warehouses/all_notes_1";
+    }
+
+    @GetMapping("/warehouse/wh_id=2/add")
+    public String showWarehouse2Registration(final Model model) {
+        model.addAttribute("noteInWH2", new Warehouse2());
+        model.addAttribute("goodId", new GoodId());
+        return "/warehouses/new_note_2";
+    }
+
+    @PostMapping("/warehouse/wh_id=2/add")
+    public String processWarehouse2Registration(final Warehouse2 note, final GoodId goodId) {
+        final Optional<Goods> foundGood = goodsRepository.findById(goodId.getGoodId());
+        if (foundGood.isEmpty()) {
+            return "/goods/not_found";
+        }
+        note.setGoods(foundGood.get());
+        warehouse2Repository.save(note);
+        return "/warehouses/all_notes_2";
+    }
+
+    public static boolean isNotNull(final Object obj) throws IllegalAccessException {
+        for (final Field f : obj.getClass().getDeclaredFields()) {
+            f.setAccessible(true);
+            if (f.get(obj) != null)
+                return true;
+        }
+        return false;
+    }
+}

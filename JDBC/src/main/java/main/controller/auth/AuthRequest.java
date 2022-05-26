@@ -1,4 +1,4 @@
-package main.controller;
+package main.controller.auth;
 
 import java.io.Serializable;
 

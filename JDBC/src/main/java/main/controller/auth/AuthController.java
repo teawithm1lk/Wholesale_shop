@@ -1,4 +1,4 @@
-package main.controller;
+package main.controller.auth;
 
 import main.repository.UserRepository;
 import main.security.jwt.JwtProvider;
@@ -28,7 +28,7 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/in")
+    @PostMapping("/login")
     public ResponseEntity signIn(@RequestBody AuthRequest request) {
         try {
             String name = request.getUserName();

@@ -58,6 +58,30 @@ public class Goods {
         this.priority = priority;
     }
 
+    public List<Sales> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<Sales> sales) {
+        this.sales = sales;
+    }
+
+    public List<Warehouse1> getWarehouse1s() {
+        return warehouse1s;
+    }
+
+    public void setWarehouse1s(List<Warehouse1> warehouse1s) {
+        this.warehouse1s = warehouse1s;
+    }
+
+    public List<Warehouse2> getWarehouse2s() {
+        return warehouse2s;
+    }
+
+    public void setWarehouse2s(List<Warehouse2> warehouse2s) {
+        this.warehouse2s = warehouse2s;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
