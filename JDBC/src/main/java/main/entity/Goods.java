@@ -58,6 +58,22 @@ public class Goods {
         this.priority = priority;
     }
 
+    public Integer getCountInWarehouse1() {
+        int count = 0;
+        for (Warehouse1 note: warehouse1s) {
+            count += note.getGoodCount();
+        }
+        return count;
+    }
+
+    public Integer getCountInWarehouse2() {
+        int count = 0;
+        for (Warehouse2 note: warehouse2s) {
+            count += note.getGoodCount();
+        }
+        return count;
+    }
+
     public List<Sales> getSales() {
         return sales;
     }

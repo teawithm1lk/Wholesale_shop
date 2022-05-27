@@ -9,11 +9,11 @@
 </head>
 <body>
 
-<header th:insert="blocks/header :: header"></header>
+<header th:insert="common/header :: header"></header>
 
 <div class="container text-center">
     <div>
-        <h1 th:text="Info about ${good.getName()}">Info about good</h1>
+        <h1 th:text="|Info about ${good.name}|">Info about good</h1>
     </div>
     <div>
         <table style="margin-left:auto;margin-right:auto;" class="table-striped table-bordered">
@@ -22,20 +22,19 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Priority</th>
-                <th>Last name</th>
                 <th>Count in warehouse 1</th>
                 <th>Count in warehouse 2</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="good: ${goodsList}">
+            <tr>
                 <td th:text="${good.id}">ID</td>
                 <td th:text="${good.name}">Name</td>
                 <td th:text="${good.priority}">Priority</td>
                 <td><a th:href="@{/warehouse/wh_id=1/{id}(id=${good.id})}"
-                       th:text="${good.warehouse1.getCount()}">Count in warehouse 1</a>
+                       th:text="${good.getCountInWarehouse1()}">Count in warehouse 1</a>
                 <td><a th:href="@{/warehouse/wh_id=2/{id}(id=${good.id})}"
-                       th:text="${good.warehouse2.getCount()}">Count in warehouse 2</a>
+                       th:text="${good.getCountInWarehouse2()}">Count in warehouse 2</a>
                 </td>
             </tr>
             </tbody>
@@ -43,7 +42,7 @@
     </div>
 </div>
 
-<div th:insert="blocks/footer :: footer"></div>
+<div th:insert="common/footer :: footer"></div>
 
 </body>
 </html>

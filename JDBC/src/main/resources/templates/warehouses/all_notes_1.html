@@ -28,7 +28,8 @@
             <tbody>
             <tr th:each="note: ${warehouse1Notes}">
                 <td th:text="${note.id}">ID</td>
-                <td th:text="${note.goods.getId()}">Good ID</td>
+                <td><a th:href="@{/goods/{id}(id=${note.goods.getId()})}"
+                       th:text="${note.goods.getId()}">Good ID</a></td>
                 <td th:text="${note.goods.getName()}">Good name</td>
                 <td th:text="${note.goodCount}">Count</td>
             </tr>

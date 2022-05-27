@@ -100,39 +100,47 @@ public class GUIController {
         return "/warehouses/all_notes_2";
     }
 
+    @GetMapping("/goods/{id}")
+    public String showGood(@PathVariable("id") Integer id, final Model model) {
+        final Optional<Goods> good = goodsRepository.findById(id);
+        if (good.isEmpty()) {
+            return "/goods/not_found";
+        }
+        final Goods clearGood = good.get();
+        model.addAttribute("good", clearGood);
+        return "/goods/good";
+    }
+
     @GetMapping("/sales/{id}")
     public String showSale(@PathVariable("id") Integer id, final Model model) {
-        final Optional<Sales> sale = salesRepository.findById(id);
-        if (sale.isEmpty()) {
+        final List<Sales> sales = salesRepository.findByGoodID(id);
+        if (sales.isEmpty()) {
             return "/sales/not_found";
         }
-        final Sales clearSale = sale.get();
-        model.addAttribute("sale", clearSale);
-        model.addAttribute("goods", clearSale.getGoods());
+        model.addAttribute("sale", sales);
+        model.addAttribute("goods", goodsRepository.findById(id).get());
         return "/sales/sale";
     }
 
     @GetMapping("/warehouse/wh_id=1/{id}")
     public String showNoteInWH1(@PathVariable("id") Integer id, final Model model) {
-        final Optional<Warehouse1> note = warehouse1Repository.findById(id);
-        if (note.isEmpty()) {
+        final List<Warehouse1> notes = warehouse1Repository.findByGoodID(id);
+        if (notes.isEmpty()) {
             return "/warehouses/not_found";
         }
-        final Warehouse1 clearNote = note.get();
-        model.addAttribute("whNote", clearNote);
-        model.addAttribute("goods", clearNote.getGoods());
+        model.addAttribute("whNote", notes);
+        model.addAttribute("goods", goodsRepository.findById(id).get());
         return "/warehouses/note";
     }
 
     @GetMapping("/warehouse/wh_id=2/{id}")
     public String showNoteInWH2(@PathVariable("id") Integer id, final Model model) {
-        final Optional<Warehouse2> note = warehouse2Repository.findById(id);
-        if (note.isEmpty()) {
+        final List<Warehouse2> notes = warehouse2Repository.findByGoodID(id);
+        if (notes.isEmpty()) {
             return "/warehouses/not_found";
         }
-        final Warehouse2 clearNote = note.get();
-        model.addAttribute("whNote", clearNote);
-        model.addAttribute("goods", clearNote.getGoods());
+        model.addAttribute("whNote", notes);
+        model.addAttribute("goods", goodsRepository.findById(id).get());
         return "/warehouses/note";
     }
 
@@ -151,7 +159,7 @@ public class GUIController {
         }
         sale.setGoods(foundGood.get());
         salesRepository.save(sale);
-        return "/sales/sales";
+        return "/home";
     }
 
     @GetMapping("/goods/add")
@@ -167,7 +175,7 @@ public class GUIController {
             return "/goods/already_exists";
         }
         goodsRepository.save(good);
-        return "/goods/goods";
+        return "/home";
     }
 
     @GetMapping("/warehouse/wh_id=1/add")
@@ -185,7 +193,7 @@ public class GUIController {
         }
         note.setGoods(foundGood.get());
         warehouse1Repository.save(note);
-        return "/warehouses/all_notes_1";
+        return "/home";
     }
 
     @GetMapping("/warehouse/wh_id=2/add")
@@ -203,7 +211,7 @@ public class GUIController {
         }
         note.setGoods(foundGood.get());
         warehouse2Repository.save(note);
-        return "/warehouses/all_notes_2";
+        return "/home";
     }
 
     public static boolean isNotNull(final Object obj) throws IllegalAccessException {

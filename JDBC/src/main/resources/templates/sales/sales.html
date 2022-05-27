@@ -30,7 +30,8 @@
             <tbody>
             <tr th:each="sale: ${salesList}">
                 <td th:text="${sale.id}">ID</td>
-                <td th:text="${sale.goods.getId()}">Good ID</td>
+                <td><a th:href="@{/goods/{id}(id=${sale.goods.getId()})}"
+                       th:text="${sale.goods.getId()}">Good ID</a></td>
                 <td th:text="${sale.goods.getName()}">Good name</td>
                 <td th:text="${sale.goodCount}">Sold count</td>
                 <td th:text="${sale.createDate}">Date</td>
