@@ -50,7 +50,9 @@ public class GUIController {
                     } catch (IllegalAccessException exception) {
                         throw new RuntimeException(exception);
                     }
-                }).toList();
+                })
+                .filter(good -> good.getCurrentCount() > 0)
+                .toList();
         model.addAttribute("goodsList", goods);
         return "/goods/goods";
     }
@@ -157,7 +159,13 @@ public class GUIController {
         if (foundGood.isEmpty()) {
             return "/goods/not_found";
         }
-        sale.setGoods(foundGood.get());
+
+        final Goods clearGood = foundGood.get();
+        if (sale.getGoodCount() > clearGood.getCurrentCount()) {
+            return "/sales/not_enough";
+        }
+
+        sale.setGoods(clearGood);
         salesRepository.save(sale);
         return "/home";
     }

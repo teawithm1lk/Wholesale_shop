@@ -74,6 +74,18 @@ public class Goods {
         return count;
     }
 
+    public Integer getCountOfSales() {
+        int count = 0;
+        for (Sales sale: sales) {
+            count += sale.getGoodCount();
+        }
+        return count;
+    }
+
+    public Integer getCurrentCount() {
+        return getCountInWarehouse1() + getCountInWarehouse2() - getCountOfSales();
+    }
+
     public List<Sales> getSales() {
         return sales;
     }
