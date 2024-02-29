@@ -1,6 +1,6 @@
 package main.controller.api;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import main.entity.Sales;
 import main.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;

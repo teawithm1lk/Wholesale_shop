@@ -1,6 +1,6 @@
 package main.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Sales {

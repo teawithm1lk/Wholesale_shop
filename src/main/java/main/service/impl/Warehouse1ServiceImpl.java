@@ -1,6 +1,6 @@
 package main.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import main.entity.Sales;
 import main.entity.Warehouse1;
 import main.repository.Warehouse1Repository;

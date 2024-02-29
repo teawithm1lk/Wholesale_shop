@@ -46,7 +46,7 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
                         "/wc/add_note_to_wh/**", "/wc/add_list_notes_to_wh/**",
                         "/wc/add_sale", "/wc/add_list_sales",
                         "/wc/add_good", "/wc/add_list_goods").hasRole("ADMIN")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfigurer(jwtProvider));
     }

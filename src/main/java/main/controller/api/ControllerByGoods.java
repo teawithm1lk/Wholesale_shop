@@ -1,6 +1,5 @@
 package main.controller.api;
 
-import jakarta.persistence.EntityNotFoundException;
 import main.entity.Goods;
 import main.service.GoodsService;
 
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
